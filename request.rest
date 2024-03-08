@@ -1,0 +1,28 @@
+GET http://localhost:5000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZ1bGxuYW1lIjoiVGVzdGluZyIsImVtYWlsIjoidGVzdGluZ0BtYXhtZWdhLmNvbSIsImlhdCI6MTY2NzQ2MjMyOCwiZXhwIjoxNjY3NTQ4NzI4fQ.74ngPdHK75uE-xky9DQG8UOM68mo0fZh4M5B3JPSfuA
+###
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "username": "testing2",
+    "email": "testing2@maxmega.com",
+    "fullname": "Testing 2",
+    "password": "123123",
+    "confirmpassword": "123123"
+}
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "username" : "testing",
+    "password" : "123123"
+}
+
+###
+GET http://localhost:5000/token
+
+###
+DELETE http://localhost:5000/logout

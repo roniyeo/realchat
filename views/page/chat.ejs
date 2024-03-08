@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <head name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chat</title>
+    </head>
+
+    <body>
+        <div class="friend" id="friend">
+
+        </div>
+        <script src="/js/jquery.js"></script>
+        <script>
+            $(document).ready(function() {
+                var uid = document.getElementById('self_id').value;
+                // console.log(uid)
+                function load_list_friend() {
+                    $.ajax({
+                        url: "http://uat-maxmega.ddns.net/:5000/userfriend/" + uid,
+                        type: "GET",
+                        success: function(response) {
+                            createListFriend(response)
+                            console.log(response)
+                        }
+                    });
+                    return false
+                }
+
+
+                function createListFriend(response) {
+                    var total_unseen = 0
+                    const root = document.querySelector('.friend')
+                    response['data'].forEach(function(r) {
+                        total_unseen += r.unseen
+                        const div = document.createElement('div')
+                        const div_friend = document.createElement('div')
+                        const avatar_friend = document.createElement('div')
+                        const avatar_icon = document.createElement('div')
+                        const main_friend = document.createElement('div')
+                        const circle_span = document.createElement('span')
+                        const profile_img = document.createElement('img')
+                        div.className = "row"
+                        // div_friend.innerHTML = r.fullname;
+                        div_friend.className = "row list-friend"
+                        div_friend.id = r.id
+
+                        main_friend.className = "col-9 col-sm-9 col-xs-9 main-friend"
+                        avatar_friend.className = "col-3 col-sm-3 col-xs-3 avatar-friend"
+                        avatar_icon.className = "avatar-icon"
+                        circle_span.className = "circle status-" + r.status
+                        profile_img.className = "avatar-icon-" + r.status
+                        profile_img.src = r.profile_photo ? "uploads/sistem/" + r.profile_photo : "/image/user.png"
+                        $.ajax({
+                            url: "http://uat-maxmega.ddns.net/:5000/lastchat/" + uid + '&' + r.id,
+                            type: "GET",
+                            success: function(res1) {
+                                console.log(res1['data']);
+                                if (res1['data'].length > 0){
+                                    res1['data'].forEach(function(chat) {
+                                        const friend_data = document.createElement('div')
+                                        friend_data.className = "col-sm-9 col-xs-8 friend-data"
+                                        const friend_time = document.createElement('div')
+                                        friend_time.className = "col-sm-3 col-xs-4 pull-right friend-time"
+                                        const time_meta_span = document.createElement('span')
+                                        time_meta_span.id = "last-chat-time-" + r.id
+                                        time_meta_span.className = "time-meta pull-right"
+                                        const br = document.createElement('br')
+                                        time_meta_span.innerHTML = moment(chat.created_at).format("HH:mm")
+                                        time_meta_span.appendChild(br)
+                                        const friend_badge_notif = document.createElement("div")
+                                        friend_badge_notif.id = "badge-danger-" + r.id
+                                        
+                                        if (chat.unseen > 0) {
+                                            friend_badge_notif.className = "badge badge-danger"
+                                            friend_badge_notif.innerHTML = chat.unseen
+                                            time_meta_span.appendChild(friend_badge_notif)
+                                        } else {
+                                            friend_badge_notif.className = "badge badge-danger"
+                                            // friend_badge_notif.innerHTML = c.unseen;
+                                            time_meta_span.appendChild(friend_badge_notif)
+                                        };
+                                        friend_time.appendChild(time_meta_span)
+
+                                        const div_row = document.createElement('div')
+                                        div_row.className = "row"
+
+                                        const fullname_span = document.createElement('span')
+                                        fullname_span.className = "meta-name font-weight-bold"
+                                        fullname_span.innerText = r.fullname
+                                        friend_data.appendChild(fullname_span)
+                                        const chat_meta = document.createElement("span")
+                                        chat_meta.id = "last-chat-" + r.id
+                                        chat_meta.className = "chat-meta text-muted"
+
+                                        const fa_i = document.createElement("i");
+                                        if (chat.type != "text") {
+                                            fa_i.className = chat.type == 'image' ? 'fa fa-camera' : 'fa fa-paperclip'
+                                            fa_i.innerHTML = chat.type == 'image' ? " Image" : " File"
+                                            chat_meta.appendChild(fa_i)
+                                        } else {
+                                            chat_meta.innerHTML = chat.message
+                                        }
+                                        friend_data.appendChild(chat_meta)
+                                        div_row.appendChild(friend_data)
+                                        div_row.appendChild(friend_time)
+                                        main_friend.appendChild(div_row)
+                                    })
+                                }else {
+                                    const no_chat_span = document.createElement('span')
+                                    no_chat_span.className = "meta-name font-weight-bold"
+                                    no_chat_span.innerHTML = r.fullname
+                                    main_friend.appendChild(no_chat_span)
+                                }
+                                div_friend.appendChild(main_friend)
+                            }
+                        })
+                        avatar_icon.appendChild(circle_span)
+                        avatar_icon.appendChild(profile_img)
+                        avatar_friend.appendChild(avatar_icon)
+                        div_friend.appendChild(avatar_friend)
+                        div_friend.appendChild(main_friend)
+                        const root_chat_notif = document.querySelector(".count-chat")
+                        root_chat_notif.id = "current-user-notif-" + uid
+                        if (total_unseen > 0) {
+                            root_chat_notif.innerHTML = r.unseen
+                        }
+                        root.appendChild(div_friend)
+                    })
+                }
+
+                load_list_friend(uid)
+            })
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="group_room" id="room"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var uid = document.getElementById('self_id').value;
+            function loadroom() {
+                $.ajax({
+                    url: 'http://uat-maxmega.ddns.net/:5000/room/' + uid,
+                    type: "GET",
+                    success: function(response) {
+                        createListRoom(response)
+                    }
+                })
+                return false
+            }
+
+            function createListRoom(response){
+                var total_unseen_room = 0;
+                const root_room = document.querySelector("#room");
+                response['data'].forEach(function(r) {
+                    total_unseen_room += r.unseen
+                    const div = document.createElement('div')
+                    const div_room = document.createElement('div')
+                    const avatar_room = document.createElement('div')
+                    const avatar_icon = document.createElement('div')
+                    const main_room = document.createElement('div')
+                    const room_img = document.createElement('img')
+
+                    div.className = "row"
+                    div_room.className = "row list-group"
+                    div_room.id = r.room_id
+
+                    main_room.className = "col-9 col-sm-9 col-xs-9 main-group"
+                    avatar_room.className = "col-3 col-sm-3 col-xs-3 avatar-group"
+                    avatar_icon.className = "avatar-icon"
+                    room_img.src = "image/group_icon.png"
+                    $.ajax({
+                        url: 'http://uat-maxmega.ddns.net/:5000/chatroom/' + r.room_id + '&' + uid,
+                        type: "GET",
+                        success: function(res){
+                            if (res['data'].length > 0) {
+                                res['data'].forEach(function(cr) {
+                                    const room_data = document.createElement('div')
+                                    room_data.className = "col-sm-9 col-xs-8 data-group"
+                                    
+                                    const room_time = document.createElement('div')
+                                    room_time.className = "col-sm-3 col-xs-4 pull-right time-group"
+
+                                    const span_room_time = document.createElement('span')
+                                    span_room_time.className = "meta-time-group pull-right"
+                                    span_room_time.id = "last-chatroom-time-" + cr.room_id + "-" + uid
+                                    const br = document.createElement('br')
+                                    span_room_time.innerHTML = moment(cr.created_at).format("HH:mm")
+                                    span_room_time.appendChild(br)
+                                    const chatroom_badge = document.createElement('div')
+                                    chatroom_badge.id = "badge-danger-" + cr.room_id + "-" + uid
+                                    if (cr.unseen > 0) {
+                                        chatroom_badge.className = "badge badge-danger"
+                                        chatroom_badge.innerHTML = cr.unseen
+                                        span_room_time.appendChild(chatroom_badge)
+                                    } else {
+                                        chatroom_badge.className = "badge badge-danger"
+                                        span_room_time.appendChild(chatroom_badge)
+                                    }
+
+                                    room_time.appendChild(span_room_time)
+
+                                    const div_row = document.createElement('div')
+                                    div_row.className = "row"
+
+                                    const roomname_span = document.createElement('span')
+                                    roomname_span.className = "meta-name-group font-weight-bold"
+                                    roomname_span.innerText = cr.room_name
+                                    room_data.appendChild(roomname_span)
+
+                                    const chatroom_meta = document.createElement('span')
+                                    chatroom_meta.id = "last-chatroom-" + cr.room_id + "-" + uid
+                                    chatroom_meta.className = "meta-group-chat text-muted"
+
+                                    const fa_i = document.createElement('i');
+                                    if (cr.type != "text") {
+                                        fa_i.className = cr.type == 'image' ?
+                                            'fa fa-camera' : 'fa fa-paperclip'
+                                        fa_i.innerHTML = cr.fullname + " : " + cr.type == 'image' ?
+                                            " File" : " Image"
+                                        chatroom_meta.appendChild(fa_i)
+                                    } else {
+                                        chatroom_meta.innerHTML = cr.fullname + " : " + cr.message
+                                    }
+                                    
+                                    room_data.appendChild(chatroom_meta)
+                                    div_row.appendChild(room_data)
+                                    div_row.appendChild(room_time)
+                                    main_room.appendChild(div_row)
+                                })
+                            }else{
+                                const span_no_chatroom = document.createElement('span')
+                                span_no_chatroom.className = "meta-name-group font-weight-bold"
+                                span_no_chatroom.innerHTML = r.room_name
+                                main_room.appendChild(span_no_chatroom)
+                            }
+                            div_room.appendChild(main_room)
+                        }
+                    })
+                    avatar_icon.appendChild(room_img)
+                    avatar_room.appendChild(avatar_icon)
+                    div_room.appendChild(avatar_room)
+                    div_room.appendChild(main_room)
+                    const root_chatroom = document.querySelector(".count-group")
+                    root_chatroom.id = "current-room-notif-" + uid
+                    if (total_unseen_room > 0) {
+                        root_chatroom.innerHTML = total_unseen_room
+                    }
+                    root_room.appendChild(div_room)
+                })
+            }
+
+            loadroom()
+        })
+    </script>
+</body>
+</html>

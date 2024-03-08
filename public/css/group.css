@@ -1,0 +1,290 @@
+.my-avatar img {
+    border-radius: 50%;
+    height: 55px;
+    width: 55px;
+    padding: 2px;
+}
+
+.avatar-group-opponent img {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+
+.group_room {
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: #fff;
+    overflow-y: auto;
+    border: 1px solid #f7f7f7;
+    height: calc(100% - 145px);
+}
+
+.list-group {
+    position: relative;
+    padding: 10px !important;
+    border-bottom: 1px solid #f7f7f7;
+    height: 72px;
+    margin: 0 !important;
+    cursor: pointer;
+    width: 100%;
+}
+
+.list-group:hover {
+    background-color: #f2f2f2;
+}
+
+.avatar-group {
+    text-align: center;
+    padding: 0 !important;
+}
+
+.avatar-icon img {
+    border-radius: 50%;
+    height: 55px;
+    width: 55px;
+    padding: 2px;
+}
+
+.main-group {
+    padding: 0 !important;
+}
+
+.main-group .row {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.data-group {
+    padding: 4px !important;
+}
+
+.meta-name-group {
+    font-size: 100%;
+    padding: 1% !important;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #000;
+}
+
+.meta-group-chat {
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.time-group {
+    padding: 10px !important;
+}
+
+.meta-time-group {
+    text-align: right;
+    font-size: 12px;
+    padding: 1% !important;
+    color: rgba(0, 0, 0, .4);
+    vertical-align: baseline;
+}
+
+.conversation-group {
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 100%;
+    overflow: hidden;
+    background: #f4f8f9;
+    border-left: 1px solid rgba(0, 0, 0, .08);
+}
+
+.conversation-group .navgroup {
+    border-bottom: 1px solid #e3e4e8;
+}
+
+.groupmessage {
+    padding: 25px !important;
+    margin: 0 !important;
+    background: #f4f8f9;
+    overflow-y: auto;
+    border: 1px solid #f7f7f7;
+    height: calc(100% - 125px);
+}
+
+.groupmessage .item-groupmessage {
+    padding: 10px 15px;
+    font-size: 12pt;
+    color: #4e4e4e;
+    max-width: 80%;
+    display: block;
+}
+
+.groupmessage .item-groupmessage img {
+    width: 100%;
+}
+
+.groupmessage .icon-emotion {
+    font-size: 18pt;
+}
+
+.groupmessage .time-groupmessage {
+    text-align: right;
+    color: #8c8c8c;
+}
+
+.groupmessage .message-group {
+    background: #ececec;
+    border-radius: 20px 20px 20px 0;
+    float: left;
+}
+
+.groupmessage .my-groupmessages {
+    background: #c1e8e2;
+    border-radius: 20px 20px 0 20px;
+    float: right;
+}
+
+img.groupmessage-image {
+    width: 400px;
+    height: auto;
+}
+
+.avatar-group .circle {
+    position: absolute;
+    top: 3px;
+    right: 18px;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+}
+
+.status {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    display: inline-block;
+}
+
+.reply-group {
+    background: #fff;
+    border-top: 1px solid #f7f7f7;
+}
+
+.reply-group #type-reply-group {
+    height: 40px;
+    padding: 8px 20px;
+    resize: none;
+    border-radius: 30px;
+    border: 1 solid #e3e4e8;
+    outline: none;
+    overflow-y: hidden;
+}
+
+.send-reply-group {
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+}
+
+.upload-btn-main {
+    width: 100%;
+    overflow: hidden;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    float: left;
+    width: 50%;
+}
+
+.upload-btn {
+    border: none;
+    color: black;
+    font-size: 17px;
+    background: #fff;
+    width: 100%;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+/*summernote*/
+
+.note-popover .popover-content, .note-toolbar {
+    margin: 0;
+    padding: 0 0 5px 5px;
+    position: absolute !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    z-index: 999 !important;
+    top: 0 !important;
+}
+
+.note-editor.note-frame .note-editing-area, .note-editor.note-airframe .note-editing-area {
+    overflow: hidden;
+    padding-left: 5% !important;
+}
+
+.note-editor.note-frame .note-statusbar, .note-editor.note-airframe .note-statusbar {
+    background-color: #f5f5f5;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top: 1px solid #ddd;
+    display: none !important;
+}
+
+.note-image-popover {
+    display: none !important;
+}
+
+.dropdown-emotion .dropdown-menu {
+    padding-left: 10px;
+    width: 300px;
+}
+
+.dropdown-emotion .dropdown-menu .select-emotion {
+    padding: 1px 4px;
+    font-size: 17pt;
+}
+
+.dropdown-emotion .dropdown-menu .select-emotion:hover {
+    background: #ececec;
+    cursor: pointer;
+}
+
+.tabs {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.tabs button {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.tabs button.active {
+    background-color: #ccc;
+}
+
+.tabcontent {
+    display: none;
+}
+
+@media screen and (min-width: 992px) {
+    .dots {
+        margin-left: 700px;
+    }
+}

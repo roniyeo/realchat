@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/tabs.css">
+    <link rel="stylesheet" type="text/css" href="/css/sapateman.css">
+    <link rel="stylesheet" type="text/css" href="/css/group.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+    <link href="image/logo_maxmega.png" rel="shortcut icon icons" type="image/x-icon">
+    <title>Maxmega Chat</title>
+</head>
+<body>
+    <input type="hidden" value="<%= data.id %>" id="self_id" name="self_id">
+    <input type="hidden" id="count_chat" value="<%= chat %>">
+    <input type="hidden" id="count_room" value="<%= room %>">
+    <div class="container-fluid p-0">
+        <div class="row box">
+            <div class="col-12 col-md-3 box-left d-none d-sm-none d-md-block">
+                <div class="box-left-sidebar">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="dropdown">
+                            <div class="my-avatar my-avatar-online" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="tre" aria-expanded="flse">
+                                <img src="image/user.png">
+                            </div>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item select-status" id="online"><span
+                                        class="status status-online mr-2"></span> Online</a>
+                                <a class="dropdown-item select-status" id="outside"><span
+                                        class="status status-outside mr-2"></span> Outside</a>
+                                <a class="dropdown-item select-status" id="busy"><span
+                                        class="status status-busy mr-2"></span> busy</a>
+                                <a class="dropdown-item select-status" id="offline"><span
+                                        class="status status-offline mr-2"></span> Offline</a>
+                            </div>
+                        </div>
+                        <span style="font-size: 18px; margin-left: 5px; font-weight: bolder"><%= data.fullname %></span>
+                        <div class="dropdown ml-auto">
+                            <div class="dropdown-toggle" id="setting" data-toggle="dropdown"
+                                aria-haspopup="tre" aria-expanded="flse">
+                                <i class="fa fa-cog"></i>
+                            </div>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="setting">
+                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                    data-target="#staticCreateGroup">Create Group</a>
+                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                    data-target="#staticBackdrop">Profile</a>
+                                <a class="dropdown-item" href="/logout" id="logout">Logout</a>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <!-- Search -->
+                    <div class="search">
+                        <div class="inner-search">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                                </div>
+                                <input type="text" class="form-control text-search" placeholder="Search by user"
+                                    aria-label="Search by User" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="tabs">
+                        <a id="chat" class="clickchat">
+                            Chat
+                            <span class="badge badge-danger count-chat" style="border-radius:10px;"></span>
+                        </a>
+                        <a id="group" class="clickroom">
+                            Group
+                            <span class="badge badge-danger count-group" style="border-radius:10px;"></span>
+                        </a>
+                    </div>
+
+                    <%- include ('page/chat.ejs'); -%>
+                    <%- include ('page/room.ejs'); -%>
+                </div>
+            </div>
+
+            <div class="col-md-9 col-12 conversation">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light" style="min-height: 70px">
+                    <div class="dropdown">
+                        <div class="opn"></div>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item select-status" id="online"><span
+                                    class="status status-online mr-2"></span> Online</a>
+                            <a class="dropdown-item select-status" id="outside"><span
+                                    class="status status-outside mr-2"></span> Outside</a>
+                            <a class="dropdown-item select-status" id="busy"><span
+                                    class="status status-busy mr-2"></span> Busy</a>
+                            <a class="dropdown-item select-status" id="offline"><span
+                                    class="status status-offline mr-2"></span> Offline</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown float-right ml-4 d-block d-md-none">
+                        <button class="btn btn-secondary float-right button-display-user-mobile"><i
+                                class="fa fa-users"></i></button>
+                    </div>
+                </nav>
+
+                <div class="message" id="conversation"></div>
+
+                <div class="row reply py-2 d-none">
+                    <div class="col-sm-2 col-2">
+                        <div class="upload-btn-main">
+                            <div class="upload-btn-wrapper">
+                                <button class="upload-btn p-2"><i class="fa fa-camera"></i></button>
+                                <form action="" method="POST" enctype="multipart/form-data">
+                                    <input type="file" class="upload_image" id="upload_image" name="upload_image"
+                                        accept="image/*" />
+                                </form>
+                            </div>
+
+                            <div class="upload-btn-wrapper">
+                                <button class="upload-btn p-2"><i class="fa fa-paperclip"></i></button>
+                                <form action="" method="POST" enctype="multipart/form-data">
+                                    <input class="upload_file" id="upload_file" type="file" name="upload_file" accept="application/*"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-8 col-6">
+                        <textarea class="form-control" id="typing-reply" placeholder="Enter your message"></textarea>
+                    </div>
+
+                    <div class="col-sm-2 col-4">
+                        <span class="dropdown dropdown-emo">
+                            <button class="btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                &#128522;
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <span class='select-emo' id="&#128512;">&#128512;</span>
+                                <span class='select-emo' id="&#128513;">&#128513;</span>
+                                <span class='select-emo' id="&#128514;">&#128514;</span>
+                                <span class='select-emo' id="&#128515;">&#128515;</span>
+                                <span class='select-emo' id="&#128516;">&#128516;</span>
+                                <span class='select-emo' id="&#128517;">&#128517;</span>
+                                <span class='select-emo' id="&#128518;">&#128518;</span>
+                                <span class='select-emo' id="&#128519;">&#128519;</span>
+                                <span class='select-emo' id="&#128520;">&#128520;</span>
+                                <span class='select-emo' id="&#128521;">&#128521;</span>
+                                <span class='select-emo' id="&#128522;">&#128522;</span>
+                                <span class='select-emo' id="&#128523;">&#128523;</span>
+                                <span class='select-emo' id="&#128524;">&#128524;</span>
+                                <span class='select-emo' id="&#128525;">&#128525;</span>
+                                <span class='select-emo' id="&#128526;">&#128526;</span>
+                                <span class='select-emo' id="&#128527;">&#128527;</span>
+                                <span class='select-emo' id="&#128528;">&#128528;</span>
+                                <span class='select-emo' id="&#128529;">&#128529;</span>
+                                <span class='select-emo' id="&#128530;">&#128530;</span>
+                                <span class='select-emo' id="&#128531;">&#128531;</span>
+                                <span class='select-emo' id="&#128532;">&#128532;</span>
+                                <span class='select-emo' id="&#128533;">&#128533;</span>
+                                <span class='select-emo' id="&#128534;">&#128534;</span>
+                                <span class='select-emo' id="&#128535;">&#128535;</span>
+                                <span class='select-emo' id="&#128536;">&#128536;</span>
+                                <span class='select-emo' id="&#128537;">&#128537;</span>
+                                <span class='select-emo' id="&#128538;">&#128538;</span>
+                                <span class='select-emo' id="&#128539;">&#128539;</span>
+                                <span class='select-emo' id="&#128540;">&#128540;</span>
+                                <span class='select-emo' id="&#128541;">&#128541;</span>
+                                <span class='select-emo' id="&#128542;">&#128542;</span>
+                                <span class='select-emo' id="&#128543;">&#128543;</span>
+                                <span class='select-emo' id="&#128544;">&#128544;</span>
+                                <span class='select-emo' id="&#128545;">&#128545;</span>
+                                <span class='select-emo' id="&#128546;">&#128546;</span>
+                                <span class='select-emo' id="&#128547;">&#128547;</span>
+                                <span class='select-emo' id="&#128548;">&#128548;</span>
+                                <span class='select-emo' id="&#128549;">&#128549;</span>
+                                <span class='select-emo' id="&#128550;">&#128550;</span>
+                                <span class='select-emo' id="&#128551;">&#128551;</span>
+                                <span class='select-emo' id="&#128552;">&#128552;</span>
+                                <span class='select-emo' id="&#128553;">&#128553;</span>
+                                <span class='select-emo' id="&#128554;">&#128554;</span>
+                                <span class='select-emo' id="&#128555;">&#128555;</span>
+                                <span class='select-emo' id="&#128556;">&#128556;</span>
+                                <span class='select-emo' id="&#128557;">&#128557;</span>
+                                <span class='select-emo' id="&#128558;">&#128558;</span>
+                                <span class='select-emo' id="&#128559;">&#128559;</span>
+                                <span class='select-emo' id="&#128560;">&#128560;</span>
+                                <span class='select-emo' id="&#128561;">&#128561;</span>
+                                <span class='select-emo' id="&#128562;">&#128562;</span>
+                                <span class='select-emo' id="&#128563;">&#128563;</span>
+                                <span class='select-emo' id="&#128564;">&#128564;</span>
+                                <span class='select-emo' id="&#128565;">&#128565;</span>
+                                <span class='select-emo' id="&#128566;">&#128566;</span>
+                                <span class='select-emo' id="&#128567;">&#128567;</span>
+                                <span class='select-emo' id="&#128577;">&#128577;</span>
+                                <span class='select-emo' id="&#128578;">&#128578;</span>
+                                <span class='select-emo' id="&#128579;">&#128579;</span>
+                                <span class='select-emo' id="&#128580;">&#128580;</span>
+                                <span class='select-emo' id="&#129296;">&#129296;</span>
+                                <span class='select-emo' id="&#129297;">&#129297;</span>
+                                <span class='select-emo' id="&#129298;">&#129298;</span>
+                                <span class='select-emo' id="&#129299;">&#129299;</span>
+                                <span class='select-emo' id="&#129300;">&#129300;</span>
+                                <span class='select-emo' id="&#129301;">&#129301;</span>
+                                <span class='select-emo' id="&#129312;">&#129312;</span>
+                                <span class='select-emo' id="&#129313;">&#129313;</span>
+                                <span class='select-emo' id="&#129314;">&#129314;</span>
+                                <span class='select-emo' id="&#129315;">&#129315;</span>
+                                <span class='select-emo' id="&#129316;">&#129316;</span>
+                                <span class='select-emo' id="&#129317;">&#129317;</span>
+                                <span class='select-emo' id="&#129319;">&#129319;</span>
+                                <span class='select-emo' id="&#129320;">&#129320;</span>
+                                <span class='select-emo' id="&#129321;">&#129321;</span>
+                                <span class='select-emo' id="&#129322;">&#129322;</span>
+                                <span class='select-emo' id="&#129323;">&#129323;</span>
+                                <span class='select-emo' id="&#129324;">&#129324;</span>
+                                <span class='select-emo' id="&#129325;">&#129325;</span>
+                                <span class='select-emo' id="&#129326;">&#129326;</span>
+                                <span class='select-emo' id="&#129327;">&#129327;</span>
+                                <span class='select-emo' id="&#129488;">&#129488;</span>
+                            </div>
+                        </span>
+                        <button class="btn btn-primary p-2 send-reply"><i class="fa fa-send"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9 col-12 conversation-group">
+                <nav class="navbar-expand-lg navbar-light bg-light navbar" style="min-height: 70px">
+                    <div class="dropdown">
+                        <div class="group-opn">
+                        </div>
+                    </div>
+                    <div class="dropdown float-right ml-4 d-block d-md-none">
+                        <button class="btn btn-secondary float-right button-display-user-mobile"><i
+                                class="fa fa-users"></i></button>
+                    </div>
+                </nav>
+                <div class="groupmessage" id="group-conversation">
+                </div>
+                <div class="row reply-group py-2 d-none">
+                    <div class="col-sm-2 col-2">
+                        <div class="upload-btn-main">
+                            <div class="upload-btn-wrapper">
+                                <button class="upload-btn p-2"><i class="fa fa-camera"></i></button>
+                                <form action="" method="POST" enctype="multipart/form-data">
+                                    <input class="upload_image_group" id="upload_image_group" type="file"
+                                        name="upload_image_group" accept="image/*" />
+                                </form>
+                            </div>
+                            <div class="upload-btn-wrapper">
+                                <button class="upload-btn p-2"><i class="fa fa-paperclip"></i></button>
+                                <form action="" method="POST" enctype="multipart/form-data">
+                                    <input class="upload_file_group" id="upload_file_group" type="file"
+                                        name="upload_file_group" accept="application/*" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 col-6">
+                        <textarea class="form-control" id="type-reply-group"
+                            placeholder="Enter your message"></textarea>
+                    </div>
+                    <div class="col-sm-2 col-4">
+                        <span class="dropdown dropdown-emo">
+                            <button class="btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                &#128522;
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <span class='select-emo' id="&#128512;">&#128512;</span>
+                                <span class='select-emo' id="&#128513;">&#128513;</span>
+                                <span class='select-emo' id="&#128514;">&#128514;</span>
+                                <span class='select-emo' id="&#128515;">&#128515;</span>
+                                <span class='select-emo' id="&#128516;">&#128516;</span>
+                                <span class='select-emo' id="&#128517;">&#128517;</span>
+                                <span class='select-emo' id="&#128518;">&#128518;</span>
+                                <span class='select-emo' id="&#128519;">&#128519;</span>
+                                <span class='select-emo' id="&#128520;">&#128520;</span>
+                                <span class='select-emo' id="&#128521;">&#128521;</span>
+                                <span class='select-emo' id="&#128522;">&#128522;</span>
+                                <span class='select-emo' id="&#128523;">&#128523;</span>
+                                <span class='select-emo' id="&#128524;">&#128524;</span>
+                                <span class='select-emo' id="&#128525;">&#128525;</span>
+                                <span class='select-emo' id="&#128526;">&#128526;</span>
+                                <span class='select-emo' id="&#128527;">&#128527;</span>
+                                <span class='select-emo' id="&#128528;">&#128528;</span>
+                                <span class='select-emo' id="&#128529;">&#128529;</span>
+                                <span class='select-emo' id="&#128530;">&#128530;</span>
+                                <span class='select-emo' id="&#128531;">&#128531;</span>
+                                <span class='select-emo' id="&#128532;">&#128532;</span>
+                                <span class='select-emo' id="&#128533;">&#128533;</span>
+                                <span class='select-emo' id="&#128534;">&#128534;</span>
+                                <span class='select-emo' id="&#128535;">&#128535;</span>
+                                <span class='select-emo' id="&#128536;">&#128536;</span>
+                                <span class='select-emo' id="&#128537;">&#128537;</span>
+                                <span class='select-emo' id="&#128538;">&#128538;</span>
+                                <span class='select-emo' id="&#128539;">&#128539;</span>
+                                <span class='select-emo' id="&#128540;">&#128540;</span>
+                                <span class='select-emo' id="&#128541;">&#128541;</span>
+                                <span class='select-emo' id="&#128542;">&#128542;</span>
+                                <span class='select-emo' id="&#128543;">&#128543;</span>
+                                <span class='select-emo' id="&#128544;">&#128544;</span>
+                                <span class='select-emo' id="&#128545;">&#128545;</span>
+                                <span class='select-emo' id="&#128546;">&#128546;</span>
+                                <span class='select-emo' id="&#128547;">&#128547;</span>
+                                <span class='select-emo' id="&#128548;">&#128548;</span>
+                                <span class='select-emo' id="&#128549;">&#128549;</span>
+                                <span class='select-emo' id="&#128550;">&#128550;</span>
+                                <span class='select-emo' id="&#128551;">&#128551;</span>
+                                <span class='select-emo' id="&#128552;">&#128552;</span>
+                                <span class='select-emo' id="&#128553;">&#128553;</span>
+                                <span class='select-emo' id="&#128554;">&#128554;</span>
+                                <span class='select-emo' id="&#128555;">&#128555;</span>
+                                <span class='select-emo' id="&#128556;">&#128556;</span>
+                                <span class='select-emo' id="&#128557;">&#128557;</span>
+                                <span class='select-emo' id="&#128558;">&#128558;</span>
+                                <span class='select-emo' id="&#128559;">&#128559;</span>
+                                <span class='select-emo' id="&#128560;">&#128560;</span>
+                                <span class='select-emo' id="&#128561;">&#128561;</span>
+                                <span class='select-emo' id="&#128562;">&#128562;</span>
+                                <span class='select-emo' id="&#128563;">&#128563;</span>
+                                <span class='select-emo' id="&#128564;">&#128564;</span>
+                                <span class='select-emo' id="&#128565;">&#128565;</span>
+                                <span class='select-emo' id="&#128566;">&#128566;</span>
+                                <span class='select-emo' id="&#128567;">&#128567;</span>
+                                <span class='select-emo' id="&#128577;">&#128577;</span>
+                                <span class='select-emo' id="&#128578;">&#128578;</span>
+                                <span class='select-emo' id="&#128579;">&#128579;</span>
+                                <span class='select-emo' id="&#128580;">&#128580;</span>
+                                <span class='select-emo' id="&#129296;">&#129296;</span>
+                                <span class='select-emo' id="&#129297;">&#129297;</span>
+                                <span class='select-emo' id="&#129298;">&#129298;</span>
+                                <span class='select-emo' id="&#129299;">&#129299;</span>
+                                <span class='select-emo' id="&#129300;">&#129300;</span>
+                                <span class='select-emo' id="&#129301;">&#129301;</span>
+                                <span class='select-emo' id="&#129312;">&#129312;</span>
+                                <span class='select-emo' id="&#129313;">&#129313;</span>
+                                <span class='select-emo' id="&#129314;">&#129314;</span>
+                                <span class='select-emo' id="&#129315;">&#129315;</span>
+                                <span class='select-emo' id="&#129316;">&#129316;</span>
+                                <span class='select-emo' id="&#129317;">&#129317;</span>
+                                <span class='select-emo' id="&#129319;">&#129319;</span>
+                                <span class='select-emo' id="&#129320;">&#129320;</span>
+                                <span class='select-emo' id="&#129321;">&#129321;</span>
+                                <span class='select-emo' id="&#129322;">&#129322;</span>
+                                <span class='select-emo' id="&#129323;">&#129323;</span>
+                                <span class='select-emo' id="&#129324;">&#129324;</span>
+                                <span class='select-emo' id="&#129325;">&#129325;</span>
+                                <span class='select-emo' id="&#129326;">&#129326;</span>
+                                <span class='select-emo' id="&#129327;">&#129327;</span>
+                                <span class='select-emo' id="&#129488;">&#129488;</span>
+                            </div>
+                        </span>
+                        <button class="btn btn-primary p-2 send-reply-group"><i class="fa fa-send"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Create Group -->
+    <div class="modal fade" id="staticCreateGroup" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="post" id="create_room" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="staticBackdropLabel">Create Room</h6>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="master_id" value="<%= data.id %>" id="master_id">
+                        <div class="form-group row">
+                            <label class="col-lg-2">Room Name</label>
+                            <div class="col-lg-10">
+                                <input type="text" name="roomname" class="form-control" placeholder="Enter Room Name" id="roomname">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-2">Select User</label>
+                            <div class="col-lg-10">
+                                <select id="select_users" multiple="multiple" name="select_users[]">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="text-right mt-5 mb-3">
+                            <button type="submit" class="btn btn-sm btn-primary" name="submit">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- <script type="text/javascript" src="/js/jquery.js"></script> -->
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script> -->
+    <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/popper.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script type="text/javascript" src="/js/multi-select.js"></script>
+</body>
+</html>
